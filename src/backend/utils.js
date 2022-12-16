@@ -105,7 +105,7 @@ const getWalletValue = async (email, symbol) => {
   }
 };
 
-// --- Fetch version
+// --- Fetch version (for XML)
 /* 
 const getRateFetch = async () => {
   return fetch(
@@ -122,7 +122,7 @@ const getRateFetch = async () => {
 };
 */
 
-// --- Promisify AJAX
+// --- Promisify AJAX version
 /* 
 const getPromiseRate = () => {
   console.log("Preparazione promise AJAX")
@@ -144,6 +144,7 @@ const getRate = async () => {
   console.log("Apertura richiesta AJAX");
   x.open(
     "GET",
+    //"https://www.w3schools.com/xml/plant_catalog.xml", 
     "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml?46f0dd7988932599cb1bcac79a10a16a",
     true
   ); //false ? 
@@ -156,13 +157,16 @@ const getRate = async () => {
     console.log("Cambiamento di stato AJAX: " + x.readyState);
     if (x.readyState == 4 && x.status == 200) {
       console.log("Risposta AJAX ricevuta");
-      //var doc = x.responseXML; //empty
+      var docxml = x.responseXML; //empty 
       var doc = x.responseText; //not empty
+      console.log(doc);
+      console.log("\n\n" + docxml);
+
       var parser = new DOMParser();
       var xmlDoc = parser.parseFromString(doc, "text/xml");
-      //console.log(xmlDoc);
-      console.log(xmlDoc.getElementsByTagName("<Cube>"));
-      var rate = xmlDoc.getElementsByTagName("<Cube>")[2].getAttribute("rate"); //rate for EUR-USD exchange
+      console.log(xmlDoc);
+      console.log(xmlDoc.getElementsByTagName("Cube"));
+      var rate = xmlDoc.getElementsByTagName("Cube")[2].getAttribute("rate"); //rate for EUR-USD exchange
       console.log("Tasso di scambio estratto: " + rate);
       return rate;
     }

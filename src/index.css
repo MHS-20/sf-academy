@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #acb505;
+  --primary-color: #e4ef0c;
 }
 
 html,
@@ -64,7 +64,7 @@ button {
 }
 
 button:hover {
-  background-color: #d6af23;
+  background-color: #ef7c17;
 }
 
 button:active {

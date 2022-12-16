@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - DB_PASS=$DB_PASS
+      - DB_NAME=$DB_NAME
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - db:/var/lib/postgres
+    networks:
+      - server
+  
+  node_backend:
+    depends_on:
+      - postgresql
+    build: ./backend
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USER=$DB_USER
+      - DB_PASS=$DB_PASS
+      - DB_NAME=$DB_NAME
+      - DB_PORT=$DB_PORT
+      - CLIENT_ORIGIN=$CLIENT_ORIGIN
+    networks:
+      - server
+      - client
+
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: ./frontend
+      args:
+        - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
+    ports:
+      - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
+    networks:
+      - client  
+
+volumes: 
+  db:
+
+networks:
+  server:
+  client:
