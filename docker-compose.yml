@@ -11,25 +11,24 @@ services:
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
-      - db:/var/lib/postgres
+      - db:/var/lib/postgres/data
     networks:
       - server
   
-  node_backend:
+  backend:
     depends_on:
       - postgresql
-    build: ./backend
+    build: ./src/backend
     restart: unless-stopped
     env_file: ./.env
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      - $NODE_PORT:$NODE_PORT
     environment:
-      - DB_HOST=mysqldb
+      - DB_HOST=postgresql
       - DB_USER=$DB_USER
       - DB_PASS=$DB_PASS
       - DB_NAME=$DB_NAME
       - DB_PORT=$DB_PORT
-      - CLIENT_ORIGIN=$CLIENT_ORIGIN
     networks:
       - server
       - client
@@ -37,12 +36,11 @@ services:
   frontend:
     depends_on:
       - backend
-    build:
-      context: ./frontend
-      args:
-        - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
+    build: ./src/frontend
+    restart: unless-stopped
+    env_file: ./.env
     ports:
-      - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
+      - $REACT_PORT:$REACT_PORT
     networks:
       - client  
 
