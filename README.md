@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SF Academy  
 
 istruzioni, materiale di studio e prove per candidarsi ad SF Academy
