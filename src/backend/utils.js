@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 const { Pool } = require("pg");
 const { XMLHttpRequest } = require("xmlhttprequest");
 //const jquery = require("jquery");
-const DOMParser = require("dom-parser");
+//const DOMParser = require("dom-parser");
+const xml2js = require("xml2js");
+
 
 console.log("Connession al DB");
 const pool = new Pool({
@@ -122,18 +124,6 @@ const getRateFetch = async () => {
 };
 */
 
-// --- Promisify AJAX version
-/* 
-const getPromiseRate = () => {
-  console.log("Preparazione promise AJAX")
-  return new Promise((resolve, reject) => {
-    const rate = getRate();
-    console.log("Risoluzione promise con rate: " + rate);
-    resolve(rate);
-  });
-};
-*/
-
 //-----------------
 // get exchange rate
 //-----------------
@@ -141,36 +131,47 @@ const getRate = async () => {
   console.log("Preparazione handler AJAX");
 
   var x = new XMLHttpRequest();
-  console.log("Apertura richiesta AJAX");
+  var resp;
+
   x.open(
     "GET",
-    //"https://www.w3schools.com/xml/plant_catalog.xml", 
-    "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml?46f0dd7988932599cb1bcac79a10a16a",
-    true
-  ); //false ? 
-
-  x.setRequestHeader("Content-Type", "text/xml");
-  x.send(null);
-  console.log("Richiesta AJAX inviata");
+      "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml?46f0dd7988932599cb1bcac79a10a16a",
+    false
+  ); 
 
   x.onreadystatechange = function () {
     console.log("Cambiamento di stato AJAX: " + x.readyState);
     if (x.readyState == 4 && x.status == 200) {
       console.log("Risposta AJAX ricevuta");
-      var docxml = x.responseXML; //empty 
-      var doc = x.responseText; //not empty
-      console.log(doc);
-      console.log("\n\n" + docxml);
 
-      var parser = new DOMParser();
-      var xmlDoc = parser.parseFromString(doc, "text/xml");
-      console.log(xmlDoc);
-      console.log(xmlDoc.getElementsByTagName("Cube"));
-      var rate = xmlDoc.getElementsByTagName("Cube")[2].getAttribute("rate"); //rate for EUR-USD exchange
-      console.log("Tasso di scambio estratto: " + rate);
-      return rate;
+      var docxml = x.responseXML; //empty
+      var doctxt = x.responseText; //not empty
+
+      console.log("\nTEXT RESPONSE: ");
+      console.log(doctxt);
+
+      console.log("\nXML RESPONSE: ");
+      console.log(docxml);
+
+      xml2js.parseString(doctxt, function (error, result) {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log("Parsing"); 
+          console.log(result["gesmes:Envelope"]["Cube"][0].Cube[0].Cube[0]["$"].rate);  //BCE link   
+          resp = result["gesmes:Envelope"]["Cube"][0].Cube[0].Cube[0]["$"].rate;
+        }
+      });
+
+      console.log("\nRate: "); 
+      console.log(parseFloat(resp)); 
     }
   };
+
+  x.setRequestHeader("Content-Type", "text/xml");
+  console.log("Richiesta AJAX inviata");
+  x.send(null);
+  return parseFloat(resp); 
 };
 
 //-----------------

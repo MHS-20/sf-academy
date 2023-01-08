@@ -162,8 +162,7 @@ const usersImpl = {
     let { amount, from, jwt, result } = call.request;
     console.log("Parametri ricevuti dal grpc: ", amount, from, result);
     const { ver, payload } = utils.verifyJwt(jwt); //check jwt
-    console.log("Verifica del jwt: ", ver);
-    if (ver == false) return callback(new Error("Unauthorized"));
+    if (ver === false) return callback(new Error("Unauthorized"));
 
     const { email } = await JSON.parse(payload);
     const walleteur = await utils.getWalletValue(email, "EUR"); //extract current value
@@ -196,13 +195,16 @@ const usersImpl = {
       usd_amount = amount;
     }
 
+    var today = new Date(Date.now()); 
+    console.log(today.toLocaleDateString());
+
     try {
       //inserting transaction
       let queryText =
         "INSERT INTO transactions (email, date, eu_amount, usd_amount, starting_currency) VALUES ($1, $2, $3, $4, $5)";
       await utils.queryPromise(queryText, [
         email,
-        Date.now(),
+        today.toLocaleDateString(),
         eu_amount,
         usd_amount,
         from,
@@ -249,13 +251,13 @@ const usersImpl = {
         [email]
       );
       console.log("Query: " + JSON.stringify(rows[0].date));
+      console.log(rows); 
 
       if (startDate != null) rows = rows.filter((row) => row.date >= d1);
 
       if (endDate != null) rows = rows.filter((row) => row.date <= d2);
 
-      if (symbol != null)
-        rows = rows.filter((row) => row.starting_currency === symbol);
+      if (symbol != null) rows = rows.filter((row) => row.starting_currency === symbol);
 
         //change date format
         for(var i = 0; i < rows.length; i++)

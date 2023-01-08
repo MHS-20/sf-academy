@@ -89,7 +89,7 @@ export default function Home(props) {
       </div>
       <Footer logout={props.logout}/>
       <br/><br/>
-      <p id="list">{rows.length > 0 ? <TransactionsList rows={rows} />  : "Nessuna transazione trovata"}</p>   
+      <nav id="list">{rows.length > 0 ? <TransactionsList rows={rows} />  : "Nessuna transazione trovata"}</nav>   
     </div>
   );
 }

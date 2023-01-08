@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TransactionsList(props) {
   let rows = props.rows;
-  console.log("Props ricevuta: " + JSON.stringify(rows));     
+  // console.log("Props ricevuta: " + JSON.stringify(rows));     
   //console.log("Props ricevuta: " + rows);
   return (
     <table id="transactions-table">

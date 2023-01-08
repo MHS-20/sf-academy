@@ -154,11 +154,11 @@ const api = {
     });
     */
 
-    let result = await new Promise((resolve, reject) => {
+    let {result} = await new Promise((resolve, reject) => {
       grpcClientExchange.exchange({ amount, from }, (err, data) => {
         if (err) reject(res.status(400).json(err));
         else resolve(data);
-        console.log("Termine esecuzione exchange");
+        console.log("Conversione di valuta eseguita con successo");
       });
     });
 

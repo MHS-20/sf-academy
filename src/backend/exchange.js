@@ -9,8 +9,8 @@ const exchangesImpl = {
     const rate = await utils.getRate(); //get exchange rate (wait for ajax)
     console.log("Tasso di scambio ricevuto: " + rate);
 
-    if (from == "EUR") callback(null, { resValue: amount * rate, rate: rate });
-    else callback(null, { resValue: amount / rate, rate: rate });
+    if (from == "EUR") callback(null, { result: amount * rate });
+    else callback(null, { result: amount / rate });
   },
 };
 
