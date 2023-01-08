@@ -1,0 +1,211 @@
+openapi: 3.1.0
+info:
+  title: Exchange microservice
+  version: 1.0.0
+  description: "Exchange EUR to USD and viceversa. "
+  termsOfService: http://swagger.io/terms/
+tags:
+  - name: "access"
+    description: "Everything about accessing the service"
+  - name: "exchange"
+    description: "All available operations "
+paths:
+  /sign-up:
+    post:
+      summary: "Sign up a new user "
+      description: ""
+      operationId: signup
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/components/schemas/sign-up-body"
+      responses:
+        200: 
+          description: "Signup successfully"
+        500:
+          description: "Internal error"
+      tags:
+        - access
+  /login:
+    get:
+      summary: Login an user to the service
+      description: ""
+      operationId: login
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+        - in: query
+          name: password
+          schema:
+            type: string
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login-response'
+        400: 
+          description: Uncorrect input
+      tags:
+        - access
+  /home/buy:
+    get:
+      summary: Buy the selected currency in the specified amount
+      description: ""
+      operationId: buy
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+        - in: query
+          name: amount
+          schema:
+            type: number
+        - in: header
+          name: authorization
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/buy-response'
+        400: 
+          description: Uncorrect input
+      security:
+         - bearerAuth: []         
+      tags:
+        - exchange
+  /home/deposit:
+    get:
+      summary: Deposit money from the user's bank to the service's wallet
+      description: ""
+      operationId: deposit
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+        - in: query
+          name: amount
+          schema:
+            type: number
+        - in: header
+          name: authorization
+      responses:
+        200:
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: number
+        400: 
+          description: Uncorrect input
+      security:
+         - bearerAuth: []
+      tags:
+        - exchange
+  /home/withdraw:
+    get:
+      summary: " Withdraw money from the service's wallet to the user's bank account"
+      description: ""
+      operationId: "withdraw"
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+        - in: query
+          name: amount
+          schema:
+            type: number
+        - in: header
+          name: authorization
+      responses:
+        200:
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: number
+        400: 
+          description: Uncorrect input
+      security:
+         - bearerAuth: []
+      tags:
+        - exchange
+  /home/transactions:
+    post:
+      summary: List all transactions
+      description: ""
+      operationId: listTransactions
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/transactions-body"
+        - in: header
+          name: authorization
+      responses: 
+       200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+       400: 
+          description: Uncorrect input
+      security:
+         - bearerAuth: []
+      tags:
+        - exchange
+components:
+  schemas: 
+    login-response: 
+      type: object
+      properties:
+        signature: #JWT
+          type: object
+        euwallet: 
+          type: number
+        usdwallet: 
+          type: number
+    buy-response: 
+      type: object
+      properties:
+        resvaleu: 
+          type: number
+        walleteur: 
+          type: number
+        walletusd: 
+          type: number
+    sign-up-body: 
+      type: object
+      properties:
+        email:
+          type: string
+        password: 
+          type: string
+        username:
+          type: string
+        iban: 
+          type: string
+    transactions-body:
+      type: object
+      properties:
+         rows:
+          type: array
+          items: 
+            type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

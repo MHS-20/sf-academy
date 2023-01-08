@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SF Academy  
 
 istruzioni, materiale di studio e prove per candidarsi ad SF Academy
@@ -73,3 +74,21 @@ ogni comunicazione tra il candidato e i responsabili delle prove avverrà tramit
 - [Infura](https://infura.io/)
 - [web3.js](https://web3js.readthedocs.io/en/1.0/index.html)
 - [web3.py](https://web3py.readthedocs.io/en/v3.16.5/) 
+=======
+## Available Scripts
+
+In the project directory, you can run:
+
+npm run server
+npm start
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+You may also see any lint errors in the console.
+
+### `npm run build`
+Builds the app for production to the `build` folder.\
+>>>>>>> exchange_microservice/master

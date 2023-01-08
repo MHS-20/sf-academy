@@ -1,0 +1,177 @@
+:root {
+  --primary-color: #e4ef0c;
+}
+
+html,
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+.gradient-background {
+  height: auto;
+  width : auto;
+   background: linear-gradient(62deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+     animation: gradient 15s ease infinite; 
+      background-size: 400% 400%;
+  
+}
+@-webkit-keyframes gradient{
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+     background-position: 0% 50%;
+  }
+}
+@keyframes gradient{
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+     background-position: 0% 50%;
+  }
+}
+
+#root {
+  display: grid;
+  grid-template-rows: 95px auto 125px;
+  height: 100%;
+  width: 100%;
+}
+
+button {
+  border: 1px solid var(--primary-color);
+  background-color: transparent;
+  border-radius: 10px;
+  color: var(--primary-color);
+  font-size: 16px;
+  padding: 9px 36px;
+  margin: 1.5em 0.5em 0.5em 0.5em;
+  height: fit-content;
+  cursor: pointer;
+  display: block;
+  box-shadow: 0 4px rgb(109, 109, 109);
+  padding-inline: 15px;
+}
+
+button:hover {
+  background-color: #ef7c17;
+}
+
+button:active {
+  background-color: #ff9307;
+  box-shadow: 0 5px rgb(255, 243, 243);
+  transform: translateY(5px);
+}
+
+#access-root {
+  margin: 12em 10em 5em 45em;
+  scale: 1.75;
+}
+
+.signup,
+.footer,
+.login {
+  margin-left: 2em;
+}
+
+h1.login {
+  margin-left: 1.25em;
+}
+
+label.signup,
+label.login {
+  margin-top: 1em;
+}
+
+.home {
+  display: inline-block;
+  margin: 1em 1em 1em 1em;
+  align-items: right;
+}
+
+#home-filter {
+  align-items: center;
+  float: right;
+}
+
+#iban {
+  letter-spacing: 5;
+  overflow-x: scroll;
+}
+
+#wallet-root {
+  align-self: center;
+}
+
+.wallet {
+  display: inline-block;
+  margin: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.operations {
+  display: inline;
+  margin: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.filter {
+  display: inline;
+  margin: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.filter#start {
+  margin-right: 15em;
+}
+
+table,
+th,
+td {
+  border: 1px solid;
+}
+
+table {
+  border: 1px solid;
+  width: 50%;
+  height: 10em;
+  text-align: center;
+  vertical-align: middle;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#list {
+  text-align: center;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+label input {
+  width: 334px;
+}
+
+input {
+  font-size: 16px;
+  padding: 8px;
+  border: 1px solid #979797;
+  border-radius: 3px;
+  overflow-x: scroll;
+}
+
+label > div {
+  display: flex;
+  column-gap: 8px;
+}

@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+enum Currency {
+    USD = 0;   
+    EUR = 1; 
+}
+
+//signup
+message signupRequest {
+    string email = 1;
+    string password = 2;
+    string name = 3;
+    string iban = 4;  
+}
+
+message signupResponse {}
+
+//login
+message loginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message loginResponse {
+ //   string status = 1; //status code
+    string signature = 1; //JWT
+    float euwallet = 2; //inizializzare portafoglio
+    float usdwallet = 3; //inizializzare portafoglio
+}
+
+//deposit
+message depositRequest {
+    float amount = 1; 
+    string from = 2; 
+    string jwt = 3; 
+}
+
+message depositResponse {
+    float wallet = 1; //new value 
+}
+
+//withdraw
+message withdrawRequest {
+    float amount = 1; 
+    string from = 2; 
+    string jwt = 3; 
+}
+
+message withdrawResponse {
+    float wallet = 1; //new value 
+}
+
+//buy
+message buyRequest {
+    float amount = 1; 
+    string from = 2;
+    string jwt = 3; 
+    float  result = 4; 
+}
+
+message buyResponse {
+    float resValue = 1; 
+    float walleteur = 2; 
+    float walletusd = 3; 
+}
+
+message Date {
+    int32 year = 1;
+    int32 month = 2;
+    int32 day = 3;
+}
+
+//Filter
+message Filter {
+    string symbol = 1;  
+    string starDate = 2; 
+    string endDate = 3; 
+}
+
+//listTransactions
+message listTransactionsRequest {
+    //Filter filter = 1;
+    string symbol = 1;  
+    string startDate = 2; 
+    string endDate = 3; 
+    string jwt = 4;
+}
+
+message listTransactionsResponse {
+    string rows = 1;
+}
+
+service users {
+    rpc signup(signupRequest) returns (signupResponse) {}
+    rpc login(loginRequest) returns (loginResponse) {}
+    rpc deposit(depositRequest) returns (depositResponse) {} 
+    rpc withdraw(withdrawRequest) returns (withdrawResponse) {} 
+    rpc buy(buyRequest) returns (buyResponse) {} 
+    rpc listTransactions(listTransactionsRequest) returns (listTransactionsResponse) {}
+}
