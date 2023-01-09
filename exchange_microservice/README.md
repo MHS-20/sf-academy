@@ -1,4 +1,5 @@
-# Install the depencies
+## Start the app
+# Install the dependencies
 npm i 
 
 ## Available Scripts
