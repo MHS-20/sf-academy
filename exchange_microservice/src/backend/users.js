@@ -196,6 +196,7 @@ const usersImpl = {
     }
 
     var today = new Date(Date.now()); 
+    today = today.toLocaleDateString(); 
     console.log(today.toLocaleDateString());
 
     try {

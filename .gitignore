@@ -1,2 +1,3 @@
 # dependencies
-/node_modules
+exchange_microservice/node_modules/*
+exchange_microservice/private.key
