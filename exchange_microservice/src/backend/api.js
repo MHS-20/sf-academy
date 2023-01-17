@@ -7,7 +7,7 @@ const grpc = require("@grpc/grpc-js");
 const { join } = require("path");
 const { setTimeout } = require("timers/promises");
 
-const { PORT = 80 } = process.env;
+const { NODE_PORT = 80 } = process.env;
 const EX_PORT = process.env.EX_PORT;
 const USR_PORT = process.env.USR_PORT;
 

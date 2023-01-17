@@ -18,7 +18,7 @@ services:
   backend:
     depends_on:
       - postgresql
-    build: ./src/backend
+    build: ./DockerfileBackend
     restart: unless-stopped
     env_file: ./.env
     ports:
@@ -36,7 +36,7 @@ services:
   frontend:
     depends_on:
       - backend
-    build: ./src/frontend
+    build: ./DockerfileFrontend
     restart: unless-stopped
     env_file: ./.env
     ports:

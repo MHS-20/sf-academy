@@ -14,7 +14,7 @@ const { promisify } = require("util");
 const { initialize } = require("express-openapi");
 
 //Ports
-const { PORT = 80 } = process.env;
+const { NODE_PORT = 80 } = process.env;
 const EX_PORT = process.env.EX_PORT; //exchange service port
 const USR_PORT = process.env.USR_PORT; //users service port
 
@@ -91,4 +91,4 @@ initialize({
   operations: api,
 });
 
-app.listen(PORT, () => console.log(`api listening on port: ${PORT}`));
+app.listen(NODE_PORT, () => console.log(`api listening on port: ${NODE_PORT}`));
