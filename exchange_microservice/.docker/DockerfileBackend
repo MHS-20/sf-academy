@@ -1,0 +1,14 @@
+FROM node:18
+
+WORKDIR /app/exchange_microservice
+ 
+#COPY ../../package.json package.json
+#COPY ../../package-lock.json package-lock.json
+#RUN npm install
+
+#COPY ../../apiDoc.yml apiDoc.yml
+COPY . .
+RUN npm install
+ 
+EXPOSE 3000
+CMD ["npm" , "run", "server"]

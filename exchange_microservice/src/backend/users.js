@@ -124,7 +124,7 @@ const usersImpl = {
       return callback(err);
     }
 
-    callback(null, { wallet: amount });
+    callback(null, { wallet: amount});
   },
 
   //-----------
@@ -168,21 +168,29 @@ const usersImpl = {
     const walleteur = await utils.getWalletValue(email, "EUR"); //extract current value
     const walletusd = await utils.getWalletValue(email, "USD"); //extract current value
 
-    let add, sub;
+    console.log("Portafoglio corrente: "); 
+    console.log(walleteur, walletusd); 
+
+    let add = 0, sub = 0;
     let addsymbol, subsymbol;
 
     //prepararing new values of the wallets
     if (from == "EUR") {
+      if(walletusd >= result){
       add = walleteur + amount; //increasing eur wallet
       sub = walletusd - result;
       addsymbol = "EUR";
       subsymbol = "USD";
+    }
     } else {
+      if(walleteur >= result){
       add = walletusd + amount; //increasing usd wallet
       sub = walleteur - result;
       addsymbol = "USD";
-      subsymbol = "EUR";
+      subsymbol = "EUR";}
     }
+
+    console.log(add, sub); 
 
     //updating list of transactions
     //preparing transaction's values
@@ -196,8 +204,8 @@ const usersImpl = {
     }
 
     var today = new Date(Date.now()); 
-    today = today.toLocaleDateString(); 
-    console.log(today.toLocaleDateString());
+  //  today = today.toLocaleDateString(); 
+    console.log(today);
 
     try {
       //inserting transaction
@@ -205,7 +213,7 @@ const usersImpl = {
         "INSERT INTO transactions (email, date, eu_amount, usd_amount, starting_currency) VALUES ($1, $2, $3, $4, $5)";
       await utils.queryPromise(queryText, [
         email,
-        today.toLocaleDateString(),
+        today,
         eu_amount,
         usd_amount,
         from,
@@ -219,6 +227,8 @@ const usersImpl = {
       queryText = utils.genQueryText(subsymbol);
       await utils.queryPromise(queryText, [sub, email]);
     } catch (err) {
+      console.log("Query error"); 
+      console.log(err); 
       return callback(err);
     }
 

@@ -9,7 +9,7 @@ const { XMLHttpRequest } = require("xmlhttprequest");
 const xml2js = require("xml2js");
 
 
-console.log("Connession al DB");
+console.log("Connessione al DB");
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
