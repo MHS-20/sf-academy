@@ -1,17 +1,15 @@
-version: '3.8'
-
 services:
   postgresql:
     image: postgres
     restart: unless-stopped
-    env_file: ./.env
     environment:
-      - DB_PASS=$DB_PASS
-      - DB_NAME=$DB_NAME
+      - DB_PASS = postgres
+      - DB_NAME = postgres
     ports:
-      - $DB_PORT:$DB_PORT
+      - 5432:5432
+    command: --init-file /app/data/init.sql
     volumes:
-      - db:/var/lib/postgres/data
+        - ./initdb.sql:/app/data/initdb.sql
     networks:
       - server
   
@@ -22,13 +20,13 @@ services:
     restart: unless-stopped
     env_file: ./.env
     ports:
-      - $NODE_PORT:$NODE_PORT
+      - 3001:3001
     environment:
-      - DB_HOST=postgresql
-      - DB_USER=$DB_USER
-      - DB_PASS=$DB_PASS
-      - DB_NAME=$DB_NAME
-      - DB_PORT=$DB_PORT
+      - DB_HOST:postgresql
+      - DB_USER:postgres
+      - DB_PASS:postgres
+      - DB_NAME:exchange
+      - DB_PORT:54321
     networks:
       - server
       - client
@@ -40,13 +38,12 @@ services:
     restart: unless-stopped
     env_file: ./.env
     ports:
-      - $REACT_PORT:$REACT_PORT
+      - 3000:3000 
     networks:
       - client  
 
-volumes: 
-  db:
-
 networks:
-  server:
-  client:
+  server: 
+    driver: bridge
+  client: 
+    driver: bridge
