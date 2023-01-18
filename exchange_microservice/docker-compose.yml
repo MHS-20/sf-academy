@@ -2,16 +2,18 @@ version: "3.3"
 
 services:
   postgresql:
-    image: postgres
+    image: postgres:15
     restart: unless-stopped
     environment:
-      - DB_PASS:postgres
-      - DB_NAME:postgres
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=2077
+      - DB_PASS=postgres
+      - DB_NAME=exchange
     ports:
-      - 5432:5432
-    command: --init-file /app/data/init.sql
+      - 5431:5431
+    command: --init-file /app/data/initdb.sql
     volumes:
-        - ./initdb.sql:/app/data/initdb.sql
+        - ./init:/docker-entrypoint-initdb.d
     networks:
       - server
   
@@ -19,18 +21,18 @@ services:
     depends_on:
       - postgresql
     build:
-      context: .docker
+      context: .
       dockerfile: DockerfileBackend
     restart: unless-stopped
     env_file: ./.env
     ports:
       - 3001:3001
     environment:
-      - DB_HOST:postgresql
-      - DB_USER:postgres
-      - DB_PASS:postgres
-      - DB_NAME:exchange
-      - DB_PORT:54321
+      - DB_HOST=postgresql
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - DB_NAME=exchange
+      - DB_PORT=54321
     networks:
       - server
       - client
@@ -39,7 +41,7 @@ services:
     depends_on:
       - backend
     build:
-      context: .docker
+      context: .
       dockerfile: DockerfileFrontend   
     restart: unless-stopped
     env_file: ./.env
