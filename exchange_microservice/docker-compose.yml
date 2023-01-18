@@ -1,10 +1,12 @@
+version: "3.3"
+
 services:
   postgresql:
     image: postgres
     restart: unless-stopped
     environment:
-      - DB_PASS = postgres
-      - DB_NAME = postgres
+      - DB_PASS:postgres
+      - DB_NAME:postgres
     ports:
       - 5432:5432
     command: --init-file /app/data/init.sql
@@ -16,7 +18,7 @@ services:
   backend:
     depends_on:
       - postgresql
-    build: ./DockerfileBackend
+    build: .docker/DockerfileBackend
     restart: unless-stopped
     env_file: ./.env
     ports:
@@ -34,7 +36,7 @@ services:
   frontend:
     depends_on:
       - backend
-    build: ./DockerfileFrontend
+    build: .docker/DockerfileFrontend
     restart: unless-stopped
     env_file: ./.env
     ports:
