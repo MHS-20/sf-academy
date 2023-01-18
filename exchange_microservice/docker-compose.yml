@@ -11,9 +11,8 @@ services:
       - DB_NAME=exchange
     ports:
       - 5431:5431
-    command: --init-file /app/data/initdb.sql
     volumes:
-        - ./init:/docker-entrypoint-initdb.d
+        - ./initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
     networks:
       - server
   
