@@ -1,10 +1,10 @@
-version: "3.3"
+version: "3.5"
 
 services:
   postgresql:
     image: postgres:15
     restart: unless-stopped
-    environment:
+    environment:  
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=2077
       - DB_PASS=postgres
@@ -22,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: DockerfileBackend
+    container_name: backend
     restart: unless-stopped
     env_file: ./.env
     ports:
@@ -31,9 +32,9 @@ services:
       - DB_USER=postgres
       - DB_PASS=postgres
       - DB_NAME=exchange
-      - DB_PORT=54321
+      - DB_PORT=5431
     networks:
-      - server
+      - server 
       - client
 
   frontend:
@@ -41,7 +42,8 @@ services:
       - backend
     build:
       context: .
-      dockerfile: DockerfileFrontend   
+      dockerfile: DockerfileFrontend 
+    container_name: frontend  
     restart: unless-stopped
     env_file: ./.env
     ports:
@@ -51,6 +53,7 @@ services:
 
 networks:
   server: 
-    driver: bridge
+   name: server
+
   client: 
-    driver: bridge
+    name: client

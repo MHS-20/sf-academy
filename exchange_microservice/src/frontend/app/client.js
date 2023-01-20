@@ -12,16 +12,16 @@ const responseHandler = async (res) => {
   }
 };
 
+// exchange_microservice_backend_1
 const client = require("./paths.js")({
   //options create api
-  endpoint: `http://localhost:3000`,
+  endpoint: `//backend:3001`, //dockerhost:port
   cors: true,
   securityHandlers: {
   },
 });
 
 const exchange = (exchangeRequest) => {
-  console.log("NEVER CALLED");
   return client
     .exchange(exchangeRequest)
     .then((res) => {
@@ -31,6 +31,8 @@ const exchange = (exchangeRequest) => {
 };
 
 const signup = async (signupRequest) => {
+
+  // console.log(basePath)
   console.log("Client invoca signup: " + JSON.stringify(signupRequest));
   return client
     .signup(signupRequest)

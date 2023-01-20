@@ -34,13 +34,16 @@ function createApi(options) {
         }
       }).join('&');
     };
+
   return {
     signup(parameters) {
       const params = typeof parameters === 'undefined' ? {} : parameters;
       let headers = {
         'content-type': 'application/json',
-
       };
+
+      console.log(endpoint + basePath + '/sign-up'); 
+      
       return fetch(endpoint + basePath + '/sign-up'
         , {
           method: 'POST',
